@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    
+    <settings>
+        <!--开启日志打印，STDOUT_LOGGING(控制台打印)-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+
+
+
+    <!--
+    环境：支持多份
+    开发环境：程序员
+    测试环境：测试人员
+    线上环境：真正用户
+
+    default：默认环境
+    -->
+    <environments default="development">
+        <!--id：唯一表示-->
+        <environment id="development">
+            <!--事务交给JDBC管理-->
+            <transactionManager type="JDBC"/>
+
+            <!--
+                数据源：
+                    数据库连接池：
+                        druid、c3p0、POOLED等
+
+                    JDBC：
+                        加载驱动、创建连接、有SQL语句、生成语句对象、处理结果集、关闭连接
+                        频繁创建和关闭连接，资源浪费;
+                    池化技术：
+                        线程池、数据库连接池等;
+                        复用资源;
+            -->
+            <!--
+                type="POOLED"    使用数据库连接池
+                type="UNPOOLED"  不使用数据库连接池
+            -->
+
+<!--            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>-->
+
+                <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://127.0.0.1:3306/mybatis_db?characterEncoding=UTF-8&amp;useSSL=false"/>
+                <property name="username" value="root"/>
+                <property name="password" value="123456"/>
+                </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!--
+            mapper：
+                resource：
+                    对应的src下的文件;
+                    映射文件的位置;
+                    有目录，用/隔开;
+                url：
+                    映射文件的绝对路径;
+                    使用文件协议和盘符;
+                    了解方式;
+                class：
+                    mapper接口文件所在的完整的路径;
+                    使用.隔开;
+                    mapper接口文件和mapper映射文件，要同名同目录;
+
+            package：
+                name属性值：mapper接口所在的包;
+                使用.隔开;
+                mapper接口文件和mapper映射文件，要同名同目录;
+                mapper接口文件和mapper映射文件，自动匹配;
+        -->
+        <mapper resource="UserDao.xml"/>
+    </mappers>
+</configuration>

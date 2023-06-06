@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!--
+    namespace：
+        命名空间;
+        映射文件的唯一标识;
+        目前属性值可自定义;
+-->
+<mapper namespace="namespaceTest">
+
+    <!--
+        select标签：查询操作
+        update标签：修改操作
+        delete标签：删除操作
+        insert标签：插入操作
+    -->
+    <!--
+        select标签：
+            查询操作
+            id：唯一标识
+            parameterType：
+                参数类型，基础类型(直接写 int等);
+                复杂类型(完整的路径值，包名.xx.类名)
+            resultType：
+                结果类型，基础类型(直接写 int等);
+                复杂类型(完整的路径值，包名.xx.类名)，单条数据或集合数据
+
+            参数只有一个时，比如#{id}，{}中的内容可以可定义，建议有意义
+    -->
+    <!--根据用户编号查询用户数据-->
+    <select id="selectById" parameterType="int" resultType="com.javasm.entity.User">
+        SELECT t.id,t.`name`,t.birthday,t.age,t.sex,t.address
+        FROM `user` t
+        WHERE t.id= #{id}
+    </select>
+
+    <!--查询所有用户数据-->
+    <select id="selectAllUser" resultType="com.javasm.entity.User">
+        SELECT t.id,t.`name`,t.birthday,t.age,t.sex,t.address
+        FROM `user` t
+    </select>
+    <!--
+    insert标签：
+        增加操作;
+        参数是对象类型，{}中的内容需要跟实体类中的属性名称保持一致;
+        根据对象.属性获取值;
+    -->
+    <insert id="addUser" parameterType="com.javasm.entity.User">
+        INSERT INTO user
+        (name,birthday,age,sex,address)
+        VALUES
+        (#{name},#{birthday},#{age},#{sex},#{address})
+    </insert>
+
+</mapper>

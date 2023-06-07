@@ -3,13 +3,37 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+    <!--引入jdbc文件-->
+    <properties resource="jdbc.properties"></properties>
     
     <settings>
         <!--开启日志打印，STDOUT_LOGGING(控制台打印)-->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
 
+    <!--
+        两种起别名的方式
+            1. 具体到类
+            2. 在包下搜索
+    -->
 
+<!--    <typeAliases>
+        &lt;!&ndash;
+            1. 给 com.javasm.entity.User 起别名 User
+               之后就可以在UserMapper.xml中设置resultType = user
+               而不用resultType = com.javasm.entity.User
+               注意：User不区分大小写
+        &ndash;&gt;
+        <typeAlias type="com.javasm.entity.User" alias="User"/>
+    </typeAliases>-->
+
+    <typeAliases>
+        <!--
+            2. 在com.javasm.entity包下搜索需要的Java Bean
+        -->
+        <package name="com.javasm.entity"/>
+    </typeAliases>
 
 
     <!--
@@ -21,8 +45,10 @@
     default：默认环境
     -->
     <environments default="development">
+
         <!--id：唯一表示-->
         <environment id="development">
+
             <!--事务交给JDBC管理-->
             <transactionManager type="JDBC"/>
 
@@ -43,19 +69,19 @@
                 type="UNPOOLED"  不使用数据库连接池
             -->
 
-<!--            <dataSource type="POOLED">
+                <dataSource type="POOLED">
                 <property name="driver" value="${driver}"/>
                 <property name="url" value="${url}"/>
                 <property name="username" value="${username}"/>
                 <property name="password" value="${password}"/>
-            </dataSource>-->
+                </dataSource>
 
-                <dataSource type="POOLED">
+<!--                <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://127.0.0.1:3306/mybatis_db?characterEncoding=UTF-8&amp;useSSL=false"/>
                 <property name="username" value="root"/>
                 <property name="password" value="123456"/>
-                </dataSource>
+                </dataSource>-->
         </environment>
     </environments>
     <mappers>
@@ -77,12 +103,16 @@
             package：
                 name属性值：mapper接口所在的包;
                 使用.隔开;
-                mapper接口文件和mapper映射文件，要同名同目录;
-                mapper接口文件和mapper映射文件，自动匹配;
+                注意：使用时要求 mapper接口文件和mapper映射文件，要同名同目录;
+                mapper接口文件和mapper映射文件(xml文件)，自动匹配;
         -->
         <mapper resource="UserDao.xml"/>
-        <mapper resource="UserMapper.xml"/>
+<!--        <mapper resource="com/javasm/mapper/UserMapper.xml"/>-->
+<!--        <mapper url="file:///D:\JavaCode\MyBatis_Study\src\main\resources\com\javasm\mapper\UserMapper.xml"></mapper>-->
+<!--        <mapper class="com.javasm.mapper.UserMapper"></mapper>-->
 
+
+        <package name="com.javasm.mapper"/>
     </mappers>
 
 

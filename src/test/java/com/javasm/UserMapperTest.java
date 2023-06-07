@@ -1,5 +1,7 @@
 package com.javasm;
 
+import com.javasm.entity.User;
+import com.javasm.entity.UserExtend;
 import com.javasm.mapper.UserMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -11,6 +13,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class UserMapperTest {
     private InputStream inputStream;
@@ -57,8 +60,39 @@ public class UserMapperTest {
         sqlSession.close();
         inputStream.close();
     }
+
+    /**
+     * 根据id查询
+     */
     @Test
     public void queryUserById(){
         System.out.println(userMapper.queryUserById(1));
+    }
+
+    /**
+     * 按照年龄排序，查询所有的用户数据
+     */
+    @Test
+    public void queryUserListOrderByAge(){
+        List<User> userList = userMapper.queryUserListOrderByAge();
+        userList.forEach(user -> System.out.println(user));
+    }
+
+    /**
+     * 查询张姓user
+     */
+    @Test
+    public void queryUserListByFamilyName(){
+        List<User> UserList = userMapper.queryUserListByFamilyName("张");
+        UserList.forEach(user -> System.out.println(user));
+    }
+
+    @Test
+    public void queryUserListByFamilyNameAndAge(){
+        User user = new User();
+        user.setAge(18);
+        UserExtend userExtend = new UserExtend("张",user);
+        List<User> userList = userMapper.queryUserListByFamilyNameAndAge(userExtend);
+        userList.forEach(user1 -> System.out.println(user1));
     }
 }

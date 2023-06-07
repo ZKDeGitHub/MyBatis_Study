@@ -25,9 +25,47 @@
     <!--
         根据id查询数据
         User queryUserById(Integer id);
+        parameterType="int" 此处的int是别名，实际是java.lang.Integer
+
     -->
-    <select id="queryUserById" parameterType="int" resultType="com.javasm.entity.User">
+    <select id="queryUserById" parameterType="int" resultType="user">
         select id,name,birthday,age,sex,address from user where id=#{id}
+    </select>
+
+    <!--
+        按照年龄排序，查询所有的用户数据
+        List<User> queryUserListOrderByAge();
+    -->
+    <select id="queryUserListOrderByAge" resultType="user">
+        select id,name,birthday,age,sex,address
+        from user
+        order by age;
+    </select>
+
+    <!--
+        查询姓张的user
+        List<User> queryUserListByFamilyName(String familyNmae);
+    -->
+    <!--
+        使用模糊查询时不能用#{}，必须用${}
+    -->
+    <select id="queryUserListByFamilyName" parameterType="String" resultType="user">
+        SELECT id,name,birthday,age,sex,address
+        FROM user
+        WHERE name LIKE '${value}%';
+    </select>
+    <!--
+        根据姓名和年龄查询
+        List<User> queryUserListByFamilyNameAndAge(UserExtend userExtend);
+
+        参数类型：嵌套类型
+            使用.语法取值
+    -->
+    <select id="queryUserListByFamilyNameAndAge" parameterType="UserExtend" resultType="User">
+        SELECT id,name,birthday,age,sex,address
+        FROM user
+        WHERE name LIKE '${familyNmae}%'
+        and age=#{user.age};
     </select>
 
 </mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    (1)Mapper接口的全路径需要和mapper映射文件中的namespace保持一致
+    (2)Mapper接口中的抽象方法的方法名称需要和mapper映射文件中(select|insert|update|delete)标签的id属性值保持一致
+    (3)Mapper接口中的抽象方法的参数的类型需要和mapper映射文件中的parameterType的属性值保持一致
+    (4)Mapper接口中的抽象方法的返回结果的类型需要和mapper映射文件中的resultType的属性值保持一致
+-->
+
+<!--
+    namespace：命名空间;
+    属性值需要和Mapper(UserMapper)接口的全路径保持一致;
+    当前映射文件的唯一标识;
+-->
+
+<mapper namespace="com.javasm.mapper.UserMapper">
+    <!--
+        id：属性值需要和Mapper接口中的抽象方法的方法名称保持一致;
+        parameterType：属性值和Mapper接口中的抽象方法的参数类型保持一致;
+        resultType：属性值和Mapper接口中的抽象方法的返回结果类型保持一致;
+    -->
+
+    <!--
+        根据id查询数据
+        User queryUserById(Integer id);
+    -->
+    <select id="queryUserById" parameterType="int" resultType="com.javasm.entity.User">
+        select id,name,birthday,age,sex,address from user where id=#{id}
+    </select>
+
+</mapper>

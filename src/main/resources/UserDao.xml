@@ -50,10 +50,43 @@
         根据对象.属性获取值;
     -->
     <insert id="addUser" parameterType="com.javasm.entity.User">
+
+        <!--
+           插入数据返回主键：
+               selectKey标签：
+                   keyProperty：主键的属性;
+                   order：何时返回主键值; AFTER(插入数据之后返回主键值);BEFORE相反;
+                   resultType：返回主键的结果类型
+       -->
+        <selectKey keyProperty="id" order="AFTER" resultType="int">
+            select last_insert_id()
+        </selectKey>
+
         INSERT INTO user
         (name,birthday,age,sex,address)
         VALUES
         (#{name},#{birthday},#{age},#{sex},#{address})
     </insert>
+
+    <!--
+    update标签：
+        修改操作;
+        参数是对象类型，{}中的内容需要跟实体类中的属性保持一致;
+    -->
+    <update id="updateById" parameterType="com.javasm.entity.User">
+        update user
+        set name=#{name},birthday=#{birthday},age=#{age},sex=#{sex},address=#{address}
+        where id=#{id}
+    </update>
+
+    <!--
+    delete标签：
+        删除操作;
+    -->
+    <delete id="deleteById" parameterType="int">
+        delete from user
+        where id=#{id}
+    </delete>
+
 
 </mapper>

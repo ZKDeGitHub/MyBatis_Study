@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 public class UserTest {
@@ -18,6 +19,11 @@ public class UserTest {
     private SqlSession sqlSession;
 
 
+    /**
+     * 添加@Before注解：
+     * 当前测试方法会在所有的测试方法执行之前执行
+     * @throws IOException
+     */
     @Before
     public void before() throws IOException {
         // 加载MyBatis的核心配置文件
@@ -31,9 +37,14 @@ public class UserTest {
 
         // 获取SqlSession对象(辅助CRUD操作)
         // 参数设置为true时，增删改操作自动提交，查询忽略
-        sqlSession = sqlSessionFactory.openSession();
+        sqlSession = sqlSessionFactory.openSession(true);
     }
 
+    /**
+     * 添加@After注解：
+     * 当前测试方法会在所有的测试方法执行之后执行
+     * @throws IOException
+     */
     @After
     public void after() throws IOException {
         // 资源关闭
@@ -75,6 +86,30 @@ public class UserTest {
         sqlSession.insert("namespaceTest.addUser",user);
         //mybatis中是默认开启事务的，因此对表进行非查询操作需要提交事务
         sqlSession.commit();
-        System.out.println(user);
+        System.out.println("user = " + user);
+    }
+
+    /**
+     * 修改
+     */
+    @Test
+    public void updateById(){
+        User user = new User();
+        user.setId(28);
+        user.setBirthday(new Date());
+        user.setName("李桑");
+        user.setAge(22);
+        user.setAddress("勾栏");
+        user.setSex("女");
+        sqlSession.update("namespaceTest.updateById",user);
+        sqlSession.commit();
+    }
+
+    /**
+     * 删除
+     */
+    @Test
+    public void deleteById(){
+        sqlSession.delete("namespaceTest.deleteById",28);
     }
 }

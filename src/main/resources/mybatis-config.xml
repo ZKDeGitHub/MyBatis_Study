@@ -81,5 +81,10 @@
                 mapper接口文件和mapper映射文件，自动匹配;
         -->
         <mapper resource="UserDao.xml"/>
+        <mapper resource="UserMapper.xml"/>
+
     </mappers>
+
+
+
 </configuration>

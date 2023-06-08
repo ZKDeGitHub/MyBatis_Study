@@ -13,7 +13,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserMapperTest {
     private InputStream inputStream;
@@ -94,5 +96,20 @@ public class UserMapperTest {
         UserExtend userExtend = new UserExtend("张",user);
         List<User> userList = userMapper.queryUserListByFamilyNameAndAge(userExtend);
         userList.forEach(user1 -> System.out.println(user1));
+    }
+
+    @Test
+    public void queryUserListByFamilyNameAndAddress(){
+        Map<String,String> map = new HashMap();
+        map.put("familyName","张");
+        map.put("address","河南");
+        List<User> userList = userMapper.queryUserListByFamilyNameAndAddress(map);
+        userList.forEach(user -> System.out.println(user));
+    }
+
+    @Test
+    public void queryUserListByFamilyNameAndSex(){
+        List<User> userList = userMapper.queryUserListByFamilyNameAndSex("小李子", "男");
+        userList.forEach(user -> System.out.println(user));
     }
 }

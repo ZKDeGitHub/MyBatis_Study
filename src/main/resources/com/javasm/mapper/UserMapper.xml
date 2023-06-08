@@ -64,8 +64,39 @@
     <select id="queryUserListByFamilyNameAndAge" parameterType="UserExtend" resultType="User">
         SELECT id,name,birthday,age,sex,address
         FROM user
-        WHERE name LIKE '${familyNmae}%'
+        WHERE name LIKE '${familyName}%'
         and age=#{user.age};
+    </select>
+
+    <!--
+        根据姓名和地址查询，参数为Map类型
+        List<User> queryUserListByFamilyNameAndAddress(Map<String,String> param);
+    -->
+    <select id="queryUserListByFamilyNameAndAddress" parameterType="map" resultType="user">
+        SELECT id,name,birthday,age,sex,address
+        FROM user
+        WHERE name LIKE '${familyName}%'
+        and
+        address LIKE '%${address}%'
+    </select>
+
+    <!--
+        根据姓名和性别查询，参数设置为2个
+        List<User> queryUserListByFamilyNameAndSex(@Param("userName") String name,@Param("userSex") String sex);
+
+    -->
+    <!--
+        参数为2个或者更多
+            使用@Param注解;
+            @Param("xxx")中的xxx需要和映射文件中的#{xxx}中的xxx保持一致
+
+        parameterType是不用设置的，mybatis会自动找到对应的类型
+    -->
+    <select id="queryUserListByFamilyNameAndSex" resultType="user">
+        SELECT id,name,birthday,age,sex,address
+        FROM user
+        WHERE name = #{userName}
+        and sex = #{userSex}
     </select>
 
 </mapper>

@@ -151,4 +151,11 @@
             </if>
         </trim>
     </insert>
+    <!--
+        插入多条数据
+        void insertUserNewList(List<UserNew> userNewList);
+    -->
+    <insert id="insertUserNewList" parameterMap="UserNew">
+
+    </insert>
 </mapper>

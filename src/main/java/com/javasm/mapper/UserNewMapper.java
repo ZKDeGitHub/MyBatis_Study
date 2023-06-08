@@ -18,4 +18,7 @@ public interface UserNewMapper {
 
     //插入单条数据
     void insertUserNew(UserNew userNew);
+
+    //插入多条数据
+    void insertUserNewList(List<UserNew> userNewList);
 }

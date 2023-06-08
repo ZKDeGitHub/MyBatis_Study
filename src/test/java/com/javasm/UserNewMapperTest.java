@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 public class UserNewMapperTest {
@@ -71,6 +72,23 @@ public class UserNewMapperTest {
         userNew.setUserName("张");
         List<UserNew> userNewList = userNewMapper.queryUserNew(userNew);
         userNewList.forEach(user1 -> System.out.println(user1));
+    }
+    @Test
+    public void updateById(){
+        UserNew userNew = new UserNew();
+        userNew.setUserId(1);
+        userNew.setUserBirthday(new Date());
+        userNew.setUserAge(13);
+        userNew.setUserAddress("洛阳");
+        userNewMapper.updateById(userNew);
+    }
+    @Test
+    public void insertUserNew(){
+        UserNew userNew = new UserNew();
+        userNew.setUserSex("1");
+        userNew.setUserName("小李子");
+        userNew.setUserBirthday(new Date());
+        userNewMapper.insertUserNew(userNew);
     }
 
 }

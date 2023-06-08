@@ -48,7 +48,7 @@
     <select id="queryUserNew" parameterType="UserNew" resultMap="UserNewMap">
         <include refid="queryTable"></include>
         <where>
-            <if test="userName!=null and userName=!''">
+            <if test="userName!=null and userName!=''">
                 and user_name like '${userName}%'
             </if>
             <if test="userBirthday!=null">
@@ -65,4 +65,90 @@
             </if>
         </where>
     </select>
+
+    <!--
+        根据id修改数据
+        void updateById(UserNew userNew);
+    -->
+    <update id="updateById" parameterType="UserNew">
+        update user_new
+
+        <!--
+            (1)使用场景：修改内容不确定    前后端交互
+            (2)使用set标签和if标签的结合方式解决：
+                使用set标签后，可以在每一个修改值的后面加上逗号;
+                若该值是最后一个条件，默认会去掉后面的符号，比如逗号;
+            注：
+                有时候，可能会把''的内容作为修改后的内容(特殊);
+                使用if标签时，test属性值可设置为：直接判断是不是空;
+        -->
+        <set>
+            <if test="userName!=null and userName!=''">
+                user_name=#{userName},
+            </if>
+            <if test="userBirthday!=null">
+                user_birthday=#{userBirthday},
+            </if>
+            <if test="userAge!=null and userAge!=0">
+                user_age=#{userAge},
+            </if>
+            <if test="userSex!=null and userSex!=''">
+                user_sex=#{userSex},
+            </if>
+            <if test="userAddress!=null and userAddress!=''">
+                user_address=#{userAddress},
+            </if>
+        </set>
+        where user_id=#{userId};
+    </update>
+
+    <!--
+        插入单条数据
+        void insertUserNew(UserNew userNew);
+    -->
+    <insert id="insertUserNew" parameterType="UserNew">
+        insert into user_new
+
+        <!--
+            trim标签：
+            prefix：前缀
+            suffix：后缀
+            suffixOverrides：去除后面多余的逗号
+        -->
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName!=null and userName!=''">
+                user_name,
+            </if>
+            <if test="userBirthday!=null">
+                user_birthday,
+            </if>
+            <if test="userAge!=null and userAge!=0">
+                user_age,
+            </if>
+            <if test="userSex!=null and userSex!=''">
+                user_sex,
+            </if>
+            <if test="userAddress!=null and userAddress!=''">
+                user_address,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName!=null and userName!=''">
+                #{userName},
+            </if>
+            <if test="userBirthday!=null">
+                #{userBirthday},
+            </if>
+            <if test="userAge!=null and userAge!=0">
+                #{userAge},
+            </if>
+            <if test="userSex!=null and userSex!=''">
+                #{userSex},
+            </if>
+            <if test="userAddress!=null and userAddress!=''">
+                #{userAddress},
+            </if>
+        </trim>
+    </insert>
 </mapper>

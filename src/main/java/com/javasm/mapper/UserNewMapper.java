@@ -12,4 +12,10 @@ public interface UserNewMapper {
 
     //查询所有符合条件的数据
     List<UserNew> queryUserNew(UserNew userNew);
+
+    //根据id修改数据
+    void updateById(UserNew userNew);
+
+    //插入单条数据
+    void insertUserNew(UserNew userNew);
 }

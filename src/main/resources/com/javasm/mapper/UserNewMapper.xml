@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javasm.mapper.UserNewMapper">
+
+    <!-- 抽出公共的sql语句 -->
+    <sql id="queryTable">
+        select user_id,user_name,user_birthday,user_age,user_sex,user_address
+        from user_new
+    </sql>
+
+
+    <!--
+        当数据库中字段与实体类中的成员变量名称不是一一对应时
+        使用resultMap标签 替换resultType
+    -->
+    <!--
+        id：唯一标识  某些select标签的resultMap的属性值需要和该标签的id属性值一致
+        type：查询结果的集合
+        column：字段名
+        property：属性名
+    -->
+    <resultMap id="UserNewMap" type="UserNew">
+        <id column="user_id" property="userId"></id>
+        <result column="user_name" property="userName"></result>
+        <result column="user_birthday" property="userBirthday"></result>
+        <result column="user_age" property="userAge"></result>
+        <result column="user_sex" property="userSex"></result>
+        <result column="user_address" property="userAddress"></result>
+    </resultMap>
+
+    <!--
+        根据id查询数据
+        UserNew queryByUserNewId(Integer userId);
+    -->
+
+    <select id="queryByUserNewId" parameterType="int" resultMap="UserNewMap">
+        <!--引入抽出的公共sql：refid属性值需要和sql标签的id属性值一致-->
+        <include refid="queryTable"></include>
+        where user_id = #{userId};
+    </select>
+
+    <!--
+        查询所有符合条件的数据
+        List<UserNew> queryUserNew(UserNew userNew);
+    -->
+    <select id="queryUserNew" parameterType="UserNew" resultMap="UserNewMap">
+        <include refid="queryTable"></include>
+        <where>
+            <if test="userName!=null and userName=!''">
+                and user_name like '${userName}%'
+            </if>
+            <if test="userBirthday!=null">
+                and user_birthday=#{userBirthday}
+            </if>
+            <if test="userAge!=null and userAge!=0">
+                and user_age=#{userAge}
+            </if>
+            <if test="userSex!=null and userSex!=''">
+                and user_sex=#{userSex}
+            </if>
+            <if test="userAddress!=null and userAddress!=''">
+                and user_address=#{userAddress}
+            </if>
+        </where>
+    </select>
+</mapper>

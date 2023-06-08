@@ -1,6 +1,8 @@
 package com.javasm.entity;
 
 
+import java.util.Date;
+
 public class UserNew {
 
   private long userId;
@@ -19,7 +21,6 @@ public class UserNew {
     this.userId = userId;
   }
 
-
   public String getUserName() {
     return userName;
   }
@@ -28,15 +29,13 @@ public class UserNew {
     this.userName = userName;
   }
 
-
-  public java.util.Date getUserBirthday() {
+  public Date getUserBirthday() {
     return userBirthday;
   }
 
-  public void setUserBirthday(java.util.Date userBirthday) {
+  public void setUserBirthday(Date userBirthday) {
     this.userBirthday = userBirthday;
   }
-
 
   public long getUserAge() {
     return userAge;
@@ -46,7 +45,6 @@ public class UserNew {
     this.userAge = userAge;
   }
 
-
   public String getUserSex() {
     return userSex;
   }
@@ -54,7 +52,6 @@ public class UserNew {
   public void setUserSex(String userSex) {
     this.userSex = userSex;
   }
-
 
   public String getUserAddress() {
     return userAddress;
@@ -64,4 +61,15 @@ public class UserNew {
     this.userAddress = userAddress;
   }
 
+  @Override
+  public String toString() {
+    return "UserNew{" +
+            "userId=" + userId +
+            ", userName='" + userName + '\'' +
+            ", userBirthday=" + userBirthday +
+            ", userAge=" + userAge +
+            ", userSex='" + userSex + '\'' +
+            ", userAddress='" + userAddress + '\'' +
+            '}';
+  }
 }

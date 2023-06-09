@@ -203,4 +203,14 @@
         delete from user_new
         where user_id = #{userId}
     </delete>
+    <!--
+        根据id批量删除
+        void void deleteUserNewByIdList(List<Integer> idList);
+    -->
+    <delete id="deleteUserNewByIdList" parameterType="list">
+        delete from user_new where user_id in
+        <foreach collection="list" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+    </delete>
 </mapper>

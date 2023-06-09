@@ -112,7 +112,16 @@ public class UserNewMapperTest {
     }
     @Test
     public void deleteUserNewById(){
-        userNewMapper.deleteUserNewById(30);
+        userNewMapper.deleteUserNewById(27);
+    }
+
+    @Test
+    public void deleteUserNewByIdList(){
+        List<Integer> integerList = new ArrayList<>();
+        integerList.add(28);
+        integerList.add(29);
+        integerList.add(30);
+        userNewMapper.deleteUserNewByIdList(integerList);
     }
 
 }

@@ -27,4 +27,7 @@ public interface UserNewMapper {
 
     //根据id删除数据
     void deleteUserNewById(Integer userNewId);
+
+    //根据id批量删除
+    void deleteUserNewByIdList(List<Integer> idList);
 }

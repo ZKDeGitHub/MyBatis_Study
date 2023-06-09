@@ -12,6 +12,13 @@ public class UserNew {
   private String userSex;
   private String userAddress;
 
+  public UserNew() {
+  }
+
+  public UserNew(String userName, long userAge) {
+    this.userName = userName;
+    this.userAge = userAge;
+  }
 
   public long getUserId() {
     return userId;

@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -89,6 +90,29 @@ public class UserNewMapperTest {
         userNew.setUserName("小李子");
         userNew.setUserBirthday(new Date());
         userNewMapper.insertUserNew(userNew);
+    }
+    @Test
+    public void insertUserNewList(){
+        UserNew userNew = new UserNew("张三", 12);
+        UserNew userNew1 = new UserNew("李四", 22);
+        UserNew userNew2 = new UserNew("王二", 32);
+        List<UserNew> userNewList = new ArrayList<>();
+        userNewList.add(userNew);
+        userNewList.add(userNew1);
+        userNewList.add(userNew2);
+        userNewMapper.insertUserNewList(userNewList);
+    }
+
+    @Test
+    public void deleteUserNew(){
+        UserNew userNew = new UserNew();
+        userNew.setUserAge(22);
+        userNew.setUserName("李四");
+        userNewMapper.deleteUserNew(userNew);
+    }
+    @Test
+    public void deleteUserNewById(){
+        userNewMapper.deleteUserNewById(30);
     }
 
 }

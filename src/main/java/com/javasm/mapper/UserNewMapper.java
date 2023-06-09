@@ -21,4 +21,10 @@ public interface UserNewMapper {
 
     //插入多条数据
     void insertUserNewList(List<UserNew> userNewList);
+
+    //删除单条数据
+    void deleteUserNew(UserNew userNew);
+
+    //根据id删除数据
+    void deleteUserNewById(Integer userNewId);
 }

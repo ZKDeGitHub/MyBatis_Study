@@ -155,7 +155,52 @@
         插入多条数据
         void insertUserNewList(List<UserNew> userNewList);
     -->
-    <insert id="insertUserNewList" parameterMap="UserNew">
+    <insert id="insertUserNewList" parameterType="list">
+        insert into user_new(user_name,user_age) values
 
+        <!--
+            foreach标签：
+            collection：遍历的数据的类型
+            item：遍历到的每一项数据
+            separator：分隔符
+            open：开始
+            close：结束
+        -->
+        <foreach collection="list" item="UserNew" separator=",">
+            (#{UserNew.userName},#{UserNew.userAge})
+        </foreach>
     </insert>
+
+    <!--
+        删除单条数据
+        void deleteUserNew(UserNew userNew);
+    -->
+    <delete id="deleteUserNew" parameterType="UserNew">
+        DELETE FROM user_new
+        <where>
+            <if test="userName!=null and userName!=''">
+                and user_name=#{userName}
+            </if>
+            <if test="userBirthday!=null">
+                and user_birthday=#{userBirthday}
+            </if>
+            <if test="userAge!=null and userAge!=0">
+                and user_age=#{userAge}
+            </if>
+            <if test="userSex!=null and userSex!=''">
+                and user_sex=#{userSex}
+            </if>
+            <if test="userAddress!=null and userAddress!=''">
+                and user_address=#{userAddress}
+            </if>
+        </where>
+    </delete>
+    <!--
+        根据id删除数据
+        void deleteUserNewById(Integer userNewId);
+    -->
+    <delete id="deleteUserNewById" parameterType="int">
+        delete from user_new
+        where user_id = #{userId}
+    </delete>
 </mapper>

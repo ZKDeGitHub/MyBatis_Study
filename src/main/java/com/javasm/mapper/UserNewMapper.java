@@ -30,4 +30,7 @@ public interface UserNewMapper {
 
     //根据id批量删除
     void deleteUserNewByIdList(List<Integer> idList);
+
+    //查询用户（UserNew）和购物车（Cart）的数据
+    List<UserNew> queryUserAndCart();
 }

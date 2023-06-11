@@ -62,6 +62,7 @@ public class UserNewMapperTest {
         sqlSession.close();
         inputStream.close();
     }
+
     @Test
     public void queryByUserNew(){
         System.out.println("user_new：" + userNewMapper.queryByUserNewId(1));
@@ -122,6 +123,11 @@ public class UserNewMapperTest {
         integerList.add(29);
         integerList.add(30);
         userNewMapper.deleteUserNewByIdList(integerList);
+    }
+    @Test
+    public void queryUserAndCart(){
+        List<UserNew> userNews = userNewMapper.queryUserAndCart();
+        userNews.forEach(userNew -> System.out.println(userNew));
     }
 
 }

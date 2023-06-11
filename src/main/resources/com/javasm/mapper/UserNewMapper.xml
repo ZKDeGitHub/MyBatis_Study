@@ -30,6 +30,39 @@
         <result column="user_address" property="userAddress"></result>
     </resultMap>
 
+
+    <!--
+        查询用户（UserNew）和购物车（Cart）的数据
+        List<UserNew> queryUserAndCart();
+    -->
+        <resultMap id="UserAndCartMap" type="UserNew">
+        <id column="user_id" property="userId"></id>
+        <result column="user_name" property="userName"></result>
+        <result column="user_birthday" property="userBirthday"></result>
+        <result column="user_age" property="userAge"></result>
+        <result column="user_sex" property="userSex"></result>
+        <result column="user_address" property="userAddress"></result>
+
+        <!--
+            association：
+            对应的一个对象时手动映射;
+            描述的是表和表之间是一对一的关系;
+            property：就是在实体类中新创建另一个实体类的成员变量名，
+                      本例中是在UserNew实体类中 对应的 成员变量Cart的属性名
+            javaType：(Cart)属性的Java类型
+        -->
+        <association property="cart" javaType="Cart">
+            <id column="cart_id" property="cartId"></id>
+            <result column="user_id" property="userId"></result>
+            <result column="total_num" property="totalNum"></result>
+            <result column="total_money" property="totalMoney"></result>
+        </association>
+    </resultMap>
+    <select id="queryUserAndCart" resultMap="UserAndCartMap">
+        SELECT * FROM user_new t1,cart t2
+        where t1.user_id = t2.user_id;
+    </select>
+
     <!--
         根据id查询数据
         UserNew queryByUserNewId(Integer userId);

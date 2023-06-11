@@ -11,6 +11,8 @@ public class UserNew {
   private long userAge;
   private String userSex;
   private String userAddress;
+  //实现一对一，在UserNew中添加Cart对象
+  private Cart cart;
 
   public UserNew() {
   }
@@ -68,6 +70,14 @@ public class UserNew {
     this.userAddress = userAddress;
   }
 
+  public Cart getCart() {
+    return cart;
+  }
+
+  public void setCart(Cart cart) {
+    this.cart = cart;
+  }
+
   @Override
   public String toString() {
     return "UserNew{" +
@@ -77,6 +87,7 @@ public class UserNew {
             ", userAge=" + userAge +
             ", userSex='" + userSex + '\'' +
             ", userAddress='" + userAddress + '\'' +
+            ", cart=" + cart +
             '}';
   }
 }

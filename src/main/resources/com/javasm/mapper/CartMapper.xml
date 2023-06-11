@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javasm.mapper.CartMapper">
+    <!--
+        查询Cart与CartItem
+        List<Cart> queryCartAndCartItem();
+    -->
+    <resultMap id="CartAndCartItemMap" type="Cart">
+        <id column="cart_id" property="cartId"></id>
+        <result column="user_id" property="userId"></result>
+        <result column="total_num" property="totalNum"></result>
+        <result column="total_money" property="totalMoney"></result>
+        <!--
+            collection：
+            用于实体类中嵌入的一个集合的类型;
+            用于表述表和表之间是一对多的关系;
+            property：集合的属性名称;
+            ofType：集合的泛型;
+        -->
+        <collection property="cartItemList" ofType="CartItem">
+            <id column="cart_item_id" property="cartItemId"></id>
+            <result column="cart_id" property="cartId"></result>
+            <result column="prod_id" property="prodId"></result>
+            <result column="prod_num" property="prodNum"></result>
+            <result column="prod_money" property="prodMoney"></result>
+        </collection>
+    </resultMap>
+    <select id="queryCartAndCartItem" resultMap="CartAndCartItemMap">
+        SELECT * FROM cart t1,cart_item t2
+        WHERE t1.cart_id = t2.cart_id;
+    </select>
+
+
+</mapper>

@@ -32,5 +32,14 @@
         WHERE t1.cart_id = t2.cart_id;
     </select>
 
+    <!--
+        根据id查询cart
+        Cart queryCartById();
+    -->
+    <select id="queryCartById" resultType="Cart">
+        select * from cart t1
+        where t1.user_id = #{userId}
+    </select>
+
 
 </mapper>

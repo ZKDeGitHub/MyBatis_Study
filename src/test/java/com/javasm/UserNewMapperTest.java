@@ -129,5 +129,17 @@ public class UserNewMapperTest {
         List<UserNew> userNews = userNewMapper.queryUserAndCart();
         userNews.forEach(userNew -> System.out.println(userNew));
     }
+    @Test
+    public void queryUserAndProd(){
+        List<UserNew> userNewList = userNewMapper.queryUserAndProd();
+        userNewList.forEach(userNew -> System.out.println(userNew));
+
+    }
+
+    @Test
+    public void queryUserLazyLoad(){
+        List<UserNew> userNewList = userNewMapper.queryUserLazyLoad();
+        System.out.println(userNewList.get(1).getCart());
+    }
 
 }

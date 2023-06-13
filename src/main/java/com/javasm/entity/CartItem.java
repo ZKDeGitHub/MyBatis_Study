@@ -8,6 +8,7 @@ public class CartItem {
   private String prodId;
   private long prodNum;
   private double prodMoney;
+  private Prod prod;
 
 
 
@@ -55,6 +56,14 @@ public class CartItem {
     this.prodMoney = prodMoney;
   }
 
+  public Prod getProd() {
+    return prod;
+  }
+
+  public void setProd(Prod prod) {
+    this.prod = prod;
+  }
+
   @Override
   public String toString() {
     return "CartItem{" +
@@ -63,6 +72,7 @@ public class CartItem {
             ", prodId='" + prodId + '\'' +
             ", prodNum=" + prodNum +
             ", prodMoney=" + prodMoney +
+            ", prod=" + prod +
             '}';
   }
 }

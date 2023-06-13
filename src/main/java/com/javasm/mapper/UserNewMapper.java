@@ -1,6 +1,7 @@
 package com.javasm.mapper;
 
 
+import com.javasm.entity.User;
 import com.javasm.entity.UserNew;
 
 import java.util.List;
@@ -33,4 +34,10 @@ public interface UserNewMapper {
 
     //查询用户（UserNew）和购物车（Cart）的数据
     List<UserNew> queryUserAndCart();
+
+    //查询用户和对应产品的数据
+    List<UserNew> queryUserAndProd();
+
+    //查询所有用户数据（延迟加载购物车数据）
+    List<UserNew> queryUserLazyLoad();
 }

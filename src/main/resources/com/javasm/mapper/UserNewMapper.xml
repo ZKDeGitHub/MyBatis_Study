@@ -30,39 +30,6 @@
         <result column="user_address" property="userAddress"></result>
     </resultMap>
 
-
-    <!--
-        查询用户（UserNew）和购物车（Cart）的数据
-        List<UserNew> queryUserAndCart();
-    -->
-        <resultMap id="UserAndCartMap" type="UserNew">
-        <id column="user_id" property="userId"></id>
-        <result column="user_name" property="userName"></result>
-        <result column="user_birthday" property="userBirthday"></result>
-        <result column="user_age" property="userAge"></result>
-        <result column="user_sex" property="userSex"></result>
-        <result column="user_address" property="userAddress"></result>
-
-        <!--
-            association：
-            对应的一个对象时手动映射;
-            描述的是表和表之间是一对一的关系;
-            property：就是在实体类中新创建另一个实体类的成员变量名，
-                      本例中是在UserNew实体类中 对应的 成员变量Cart的属性名
-            javaType：(Cart)属性的Java类型
-        -->
-        <association property="cart" javaType="Cart">
-            <id column="cart_id" property="cartId"></id>
-            <result column="user_id" property="userId"></result>
-            <result column="total_num" property="totalNum"></result>
-            <result column="total_money" property="totalMoney"></result>
-        </association>
-    </resultMap>
-    <select id="queryUserAndCart" resultMap="UserAndCartMap">
-        SELECT * FROM user_new t1,cart t2
-        where t1.user_id = t2.user_id;
-    </select>
-
     <!--
         根据id查询数据
         UserNew queryByUserNewId(Integer userId);
@@ -246,4 +213,112 @@
             #{userId}
         </foreach>
     </delete>
+    <!--
+        查询用户（UserNew）和购物车（Cart）的数据
+        List<UserNew> queryUserAndCart();
+    -->
+    <resultMap id="UserAndCartMap" type="UserNew">
+        <id column="user_id" property="userId"></id>
+        <result column="user_name" property="userName"></result>
+        <result column="user_birthday" property="userBirthday"></result>
+        <result column="user_age" property="userAge"></result>
+        <result column="user_sex" property="userSex"></result>
+        <result column="user_address" property="userAddress"></result>
+
+        <!--
+            association：
+            对应的一个对象时手动映射;
+            描述的是表和表之间是一对一的关系;
+            property：就是在实体类中新创建另一个实体类的成员变量名，
+                      本例中是在UserNew实体类中 对应的 成员变量Cart的属性名
+            javaType：(Cart)属性的Java类型
+        -->
+        <association property="cart" javaType="Cart">
+            <id column="cart_id" property="cartId"></id>
+            <result column="user_id" property="userId"></result>
+            <result column="total_num" property="totalNum"></result>
+            <result column="total_money" property="totalMoney"></result>
+        </association>
+    </resultMap>
+
+    <select id="queryUserAndCart" resultMap="UserAndCartMap">
+        SELECT * FROM user_new t1,cart t2
+        where t1.user_id = t2.user_id;
+    </select>
+
+    <!--
+    查询用户和对应产品的数据（多对多）
+    List<UserNew> queryUserAndProd();
+    -->
+    <resultMap id="UserAndProdMap" type="UserNew">
+        <id column="user_id" property="userId"></id>
+        <result column="user_name" property="userName"></result>
+        <result column="user_birthday" property="userBirthday"></result>
+        <result column="user_age" property="userAge"></result>
+        <result column="user_sex" property="userSex"></result>
+        <result column="user_address" property="userAddress"></result>
+
+        <!--用户和购物车：一对一-->
+        <association property="cart" javaType="Cart">
+            <id column="cart_id" property="cartId"></id>
+            <result column="user_id" property="userId"></result>
+            <result column="total_num" property="totalNum"></result>
+            <result column="total_money" property="totalMoney"></result>
+
+            <!--购物车和购物车项：一对多-->
+            <collection property="cartItemList" ofType="CartItem">
+                <id column="cart_item_id" property="cartItemId"></id>
+                <result column="cart_id" property="cartId"></result>
+                <result column="prod_id" property="prodId"></result>
+                <result column="prod_num" property="prodNum"></result>
+                <result column="prod_money" property="prodMoney"></result>
+                <!--购物车项和产品：一对一-->
+                <association property="prod" javaType="Prod">
+                    <id column="prod_id" property="prodId"></id>
+                    <result column="prod_name" property="prodName"></result>
+                    <result column="prod_price" property="prodPrice"></result>
+                    <result column="prod_img" property="prodImg"></result>
+                    <result column="prod_desc" property="prodDesc"></result>
+                </association>
+            </collection>
+        </association>
+    </resultMap>
+    <select id="queryUserAndProd" resultMap="UserAndProdMap">
+        SELECT * FROM user_new t1,cart t2,cart_item t3,prod t4
+        WHERE t1.user_id = t2.user_id
+        AND t2.cart_id = t3.cart_id
+        and t3.prod_id = t4.prod_id
+    </select>
+
+    <!--
+        查询所有用户数据（延迟加载购物车数据）
+        List<UserNew> queryUserLazyLoad();
+    -->
+    <resultMap id="queryUserLazyLoadMap" type="UserNew">
+        <id column="user_id" property="userId"></id>
+        <result column="user_name" property="userName"></result>
+        <result column="user_birthday" property="userBirthday"></result>
+        <result column="user_age" property="userAge"></result>
+        <result column="user_sex" property="userSex"></result>
+        <result column="user_address" property="userAddress"></result>
+        <!--
+            association：
+            一对一;
+            对应的一个对象时手动映射;
+            描述的是表和表之间是一对一的关系;
+            property：就是在实体类中新创建另一个实体类的成员变量名，
+                      本例中是在UserNew实体类中 对应的 成员变量Cart的属性名
+            javaType：(Cart)属性的Java类型
+
+            select：属性值表示要延迟加载的方法   完整的路径
+            column：如下SQL语句查询的结果中的某个字段(user_id)的值要作为参数传递给select属性值表示的方法
+        -->
+        <association property="cart" javaType="Cart"
+                     select="com.javasm.mapper.CartMapper.queryCartById" column="user_id">
+
+        </association>
+    </resultMap>
+    <select id="queryUserLazyLoad" resultMap="queryUserLazyLoadMap">
+        select * from user_new;
+    </select>
 </mapper>
